@@ -1,0 +1,19 @@
+{% load staticfiles %}
+{% load rest_framework %}
+
+<head>
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+
+<html><body>
+  <div id='content'>
+    <h1>Login Page</h1>
+
+    <form class="form-inline" action="{% url 'login' %}" method="post">
+    	{% csrf_token %}
+    	{% render_form serializer %}
+    	<button type="submit" class="btn btn-default">Sign in</button>
+    	<a href="/student/register">Register "if this is your first time"</a>
+    </form>
+  </div>
+</body></html>
