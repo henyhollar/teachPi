@@ -3,8 +3,11 @@ from django.db import models
 # Create your models here.
 
 class Attendance(models.Model):
-	present = models.BooleanField(default=False)
-	time = models.DateTimeField(auto_now=True)
+	user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='user', unique=True)
+	status = models.BooleanField(default=False)
+	course = models.CharField(max_length=300)
+	date = models.DateField(auto_now=True)
+	time = models.TimeField(auto_now=True)
 	
 	def __unicode__(self):
-		return "{}:{}".format(self.present, self.time)
+		return "{}:{}:{}".format(self.user, self.course, self.status)

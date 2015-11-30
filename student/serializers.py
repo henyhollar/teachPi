@@ -1,44 +1,98 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
-class LoginSerializer(serializers.Serializer):
-    matric_no = serializers.CharField(
-        max_length=20,
-        style={'placeholder': 'Matric No.'}
-    )
+User = get_user_model()
 
-    password = serializers.CharField(
-        max_length=100,
-        style={'input_type': 'password', 'placeholder': 'Password'}
-    )
+# class LoginSerializer(serializers.Serializer):
+#     matric_no = serializers.CharField(
+#         max_length=20,
+#         style={'placeholder': 'Matric No.'}
+#     )
 
-    remember_me = serializers.BooleanField()
+#     password = serializers.CharField(
+#         max_length=100,
+#         style={'input_type': 'password', 'placeholder': 'Password'}
+#     )
 
 
 class RegisterSerializer(serializers.Serializer):
-	matric_no = serializers.CharField(
-		max_length = 20,
-		style = {'placeholder': 'Matric No.', 'class': 'textbox'}
+	username = serializers.CharField(
+		max_length = 30,
+		style = {'placeholder': 'Username'}
 	)
 
-	surname = serializers.CharField(
-		max_length = 50,
-		style = {'placeholder': 'Surname', 'class': 'textbox'}
+    matric_no = serializers.CharField(
+        max_length = 14,
+        style = {'placeholder': 'Matric No.'}
+    )
+
+	last_name = serializers.CharField(
+		max_length = 30,
+		style = {'placeholder': 'Last name'}
 	)
 
 	first_name = serializers.CharField(
-                max_length = 50,
-                style = {'placeholder': 'First name', 'class': 'textbox'}
+                max_length = 30,
+                style = {'placeholder': 'First name'}
+        )
+
+    email = serializers.EmailField(
+                style = {'placeholder': 'Email'}
         )
 
 	password = serializers.CharField(
-                max_length = 100,
+                max_length = 30,
                 style = {'input-type': 'password', 'placeholder': 'Password' }
 	)
 
 	confirm_password = serializers.CharField(
-                max_length = 100,
+                max_length = 30,
                 style = {'input-type': 'password', 'placeholder': 'Password'}
         )
 
+    def validate_matric_no(self, value):
+        matric_no = value.upper()
+        try:
+            user = User.objects.get(matric_no=matric_no)
+        except User.DoesNotExist:
 
+            if matric_no.startswith('EEG') and len(value) == 12:
+                #set a group for the user i.e undergraduate
+                return value
+
+            else if matric_no.startswith('TP') and len(value) == 14:
+                #set a group for the user i.e graduate
+                return value
+        
+            else if matric_no.startswith('AC') and len(value) == 8:
+                #set a group for the user i.e staff
+                return value
+
+            else:
+                raise serializers.ValidationError('Please check the matric_no')
+
+        raise serializers.ValidationError('Please check the matric_no')
+
+    def validate_email(self, value):
+        try:
+            user = User.objects.get(email=value)
+            if user.username == self.instance.username:
+                return value
+            else:
+                raise serializers.ValidationError('Email already exists please choose another')
+        except User.DoesNotExist:
+            return value
+        except MultipleObjectsReturned:
+            #if value != u'':
+            raise serializers.ValidationError('Please enter an email address')
+
+
+    def validate(self, data):
+        if data['password'] == data['confirm_password']:
+            return data
+        else:
+            raise serializers.ValidationError('The passwords entered are not the same')
+
+
+    def create(self, validate_data):
+        return User(**validate_data)
