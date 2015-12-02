@@ -3,16 +3,17 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-# class LoginSerializer(serializers.Serializer):
-#     matric_no = serializers.CharField(
-#         max_length=20,
-#         style={'placeholder': 'Matric No.'}
-#     )
+#def check_matric_no(matric_no):
+	#if matric_no.startswith('EEG') and len(value) == 12:
+		#return value
+	#elif matric_no.startswith('TP') and len(value) == 14:
+		#return value
+	#elif matric_no.startswith('AC') and len(value) == 8:
+		#return value
 
-#     password = serializers.CharField(
-#         max_length=100,
-#         style={'input_type': 'password', 'placeholder': 'Password'}
-#     )
+	#else:
+		#raise serializers.ValidationError('Please check the matric_no')
+
 
 
 class RegisterSerializer(serializers.Serializer):
@@ -21,7 +22,7 @@ class RegisterSerializer(serializers.Serializer):
 		style = {'placeholder': 'Username'}
 	)
 
-    matric_no = serializers.CharField(
+	matric_no = serializers.CharField(
         max_length = 14,
         style = {'placeholder': 'Matric No.'}
     )
@@ -32,67 +33,57 @@ class RegisterSerializer(serializers.Serializer):
 	)
 
 	first_name = serializers.CharField(
-                max_length = 30,
-                style = {'placeholder': 'First name'}
-        )
+		max_length = 30,
+        style = {'placeholder': 'First name'}
+    )
 
-    email = serializers.EmailField(
-                style = {'placeholder': 'Email'}
-        )
+	email = serializers.EmailField(
+		style = {'placeholder': 'Email'}
+    )
 
 	password = serializers.CharField(
-                max_length = 30,
-                style = {'input-type': 'password', 'placeholder': 'Password' }
+	    max_length = 30,
+        style = {'input-type': 'password', 'placeholder': 'Password' }
 	)
 
 	confirm_password = serializers.CharField(
-                max_length = 30,
-                style = {'input-type': 'password', 'placeholder': 'Password'}
-        )
+        max_length = 30,
+        style = {'input-type': 'password', 'placeholder': 'Password'}
+    )
 
-    def validate_matric_no(self, value):
-        matric_no = value.upper()
-        try:
-            user = User.objects.get(matric_no=matric_no)
-        except User.DoesNotExist:
-
-            if matric_no.startswith('EEG') and len(value) == 12:
-                #set a group for the user i.e undergraduate
-                return value
-
-            else if matric_no.startswith('TP') and len(value) == 14:
-                #set a group for the user i.e graduate
-                return value
-        
-            else if matric_no.startswith('AC') and len(value) == 8:
-                #set a group for the user i.e staff
-                return value
-
-            else:
-                raise serializers.ValidationError('Please check the matric_no')
-
-        raise serializers.ValidationError('Please check the matric_no')
-
-    def validate_email(self, value):
-        try:
-            user = User.objects.get(email=value)
-            if user.username == self.instance.username:
-                return value
-            else:
-                raise serializers.ValidationError('Email already exists please choose another')
-        except User.DoesNotExist:
-            return value
-        except MultipleObjectsReturned:
+	
+    
+	def validate_email(self, value):
+		try:
+			user = User.objects.get(email=value)
+			if user.username == self.instance.username:
+				return value
+			else:
+				raise serializers.ValidationError('Email already exists please choose another')
+		except User.DoesNotExist:
+			return value
+		except MultipleObjectsReturned:
             #if value != u'':
-            raise serializers.ValidationError('Please enter an email address')
+			raise serializers.ValidationError('Please enter an email address')
+			
+			
+	#def validate_matric_no(self, value):
+		#matric_no = value.upper()
+        #try:
+            #user = User.objects.get(matric_no=matric_no)
+        #except User.DoesNotExist:
+			##check_matric_no(matric_no)
+			#return val
+
+        #raise serializers.ValidationError('Please check the matric_no')
 
 
-    def validate(self, data):
-        if data['password'] == data['confirm_password']:
-            return data
-        else:
-            raise serializers.ValidationError('The passwords entered are not the same')
+	def validate(self, data):
+		if data['password'] == data['confirm_password']:
+			return data
+		else:
+			raise serializers.ValidationError('The passwords entered are not the same')
 
 
-    def create(self, validate_data):
-        return User(**validate_data)
+	def create(self, validate_data):
+		return User(**validate_data)

@@ -1,6 +1,6 @@
 from rest_framework import generics, permissions, status, exceptions
 from rest_framework.views import APIView
-from serializers import LoginSerializer, RegisterSerializer
+from serializers import RegisterSerializer
 from rest_framework.response import Response
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.shortcuts import redirect
@@ -34,7 +34,7 @@ class RegisterView(APIView):
 
 class LoginView(APIView):
 
-	error_messages = {
+    error_messages = {
         'invalid': "Invalid username or password",
         'disabled': "Sorry, this account is suspended",
     }

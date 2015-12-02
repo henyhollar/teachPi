@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^attendance/', include('attendance.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^student/', include('student.urls')),
+    url(r'^quiz/', include('quiz.urls')),
 ]

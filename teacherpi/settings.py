@@ -42,6 +42,10 @@ INSTALLED_APPS = (
     'attendance',
     'student',
     'rest_framework',
+    'quiz',
+    'multichoice',
+    'true_false',
+    'essay',
   )
 
 MIDDLEWARE_CLASSES = (

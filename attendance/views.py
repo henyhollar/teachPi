@@ -8,7 +8,7 @@ class AttendanceView(APIView):
 
 	def post(self, request, format=None):
 		#get the start time of the course (from the point the staff presses a button for the start) and check with the current time
-        return Attendance.objects.create(user=request.user.id, status=request.POST.get('status'), course=request.POST.get('course'))
+	        return Attendance.objects.create(user=request.user.id, status=request.POST.get('status'), course=request.POST.get('course'))
 
 		
 
