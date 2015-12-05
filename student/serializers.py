@@ -85,5 +85,6 @@ class RegisterSerializer(serializers.Serializer):
 			#raise serializers.ValidationError('The passwords entered are not the same')
 
 
-	def create(self, validate_data):
-		return User(**validate_data)
+	def save(self):
+		user = User(**self.validated_data)
+		user.save()
