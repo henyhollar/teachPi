@@ -46,10 +46,10 @@ class RegisterSerializer(serializers.Serializer):
         style = {'input-type': 'password', 'placeholder': 'Password' }
 	)
 
-	confirm_password = serializers.CharField(
-        max_length = 30,
-        style = {'input-type': 'password', 'placeholder': 'Password'}
-    )
+	#confirm_password = serializers.CharField(
+        #max_length = 30,
+        #style = {'input-type': 'password', 'placeholder': 'Confirm Password'}
+    #)
 
 	
     
@@ -62,9 +62,9 @@ class RegisterSerializer(serializers.Serializer):
 				raise serializers.ValidationError('Email already exists please choose another')
 		except User.DoesNotExist:
 			return value
-		except MultipleObjectsReturned:
-            #if value != u'':
-			raise serializers.ValidationError('Please enter an email address')
+		#except MultipleObjectsReturned:
+            ##if value != u'':
+			#raise serializers.ValidationError('Please enter an email address')
 			
 			
 	#def validate_matric_no(self, value):
@@ -78,11 +78,11 @@ class RegisterSerializer(serializers.Serializer):
         #raise serializers.ValidationError('Please check the matric_no')
 
 
-	def validate(self, data):
-		if data['password'] == data['confirm_password']:
-			return data
-		else:
-			raise serializers.ValidationError('The passwords entered are not the same')
+	#def validate(self, data):
+		#if data['password'] == data['confirm_password']:
+			#return data
+		#else:
+			#raise serializers.ValidationError('The passwords entered are not the same')
 
 
 	def create(self, validate_data):
