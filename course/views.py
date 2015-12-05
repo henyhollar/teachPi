@@ -13,3 +13,7 @@ class CourseView(APIView):
 
 	def put(self, request):
 		pass
+		
+		
+class CantakeCourse(APIView):
+	pass

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-User = get_user_model()
+User = get_user_model()#(?P<>[a-z0-9]{81,14,12})
 
 #def check_matric_no(matric_no):
 	#if matric_no.startswith('EEG') and len(value) == 12:

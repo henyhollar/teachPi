@@ -46,10 +46,12 @@ INSTALLED_APPS = (
     'multichoice',
     'true_false',
     'essay',
+    'corsheaders',
   )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -113,3 +115,5 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 AUTH_USER_MODEL = 'student.StudentUser'
+
+CORS_ORIGIN_ALLOW_ALL = True
