@@ -91,5 +91,9 @@ class RegisterSerializer(serializers.Serializer):
 
 
 	def save(self):
-		user = User(**self.validated_data)
+		user = User.objects.create_user(self.validated_data['username'], self.validated_data['email'], self.validated_data['password'])
+		user.first_name = self.validated_data['first_name']
+		user.last_name = self.validated_data['last_name']
+		user.matric_no = self.validated_data['matric_no']
+
 		user.save()

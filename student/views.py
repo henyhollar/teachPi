@@ -4,7 +4,7 @@ from serializers import RegisterSerializer
 from rest_framework.response import Response
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.shortcuts import redirect
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 
 
 from django.contrib.auth import get_user_model
@@ -58,7 +58,9 @@ class LoginView(APIView):
         
         username = request.POST.get('username')
         password = request.POST.get('password')
+        print username, password
         user = authenticate(username=username, password=password)
+        print user
         if user is not None:
             if user.is_active:
                 login(request, user)
