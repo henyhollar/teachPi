@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'multichoice',
     'true_false',
     'essay',
+    'course',
     'corsheaders',
   )
 

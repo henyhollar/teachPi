@@ -53,26 +53,27 @@ class LoginView(APIView):
     def get(self, request, *args, **kwargs):
         # Get the current user
         if request.user.is_authenticated():
-            return Response({'user': request.user.id})
-        return Response({'user': None})
+            return Response({'user_id': request.user.id})
+        return Response({'user_id': None})
     
     def post(self, request, *args, **kwargs):
         
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print username, password
         user = authenticate(username=username, password=password)
-        print user
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return Response({'success': True, 'user': user.id})
+                request.session['user_id'] = user.id
+                request.session.cycle_key()
+                return Response({'success': True})
             return self._error_response('disabled')
         return self._error_response('invalid')
     
 @api_view(['GET'])
 def log_me_out(request):
 	logout(request)
+	request.session.clear_expired()
 	return Response(status=status.HTTP_204_NO_CONTENT)
 
 # class IndexView(APIView):
