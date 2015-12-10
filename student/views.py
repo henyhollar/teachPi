@@ -3,11 +3,13 @@ from rest_framework.views import APIView
 from serializers import RegisterSerializer
 from rest_framework.response import Response
 from rest_framework.renderers import TemplateHTMLRenderer
-from django.shortcuts import redirect
-from django.contrib.auth import authenticate, login
+from rest_framework.decorators import api_view
 
+from django.shortcuts import redirect
+from django.contrib.auth import authenticate, login, logout
 
 from django.contrib.auth import get_user_model
+
 
 User = get_user_model()
 
@@ -51,9 +53,9 @@ class LoginView(APIView):
     def get(self, request, *args, **kwargs):
         # Get the current user
         if request.user.is_authenticated():
-            return Response({'user': request.user})
+            return Response({'user': request.user.id})
         return Response({'user': None})
-
+    
     def post(self, request, *args, **kwargs):
         
         username = request.POST.get('username')
@@ -64,10 +66,14 @@ class LoginView(APIView):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return Response({'success': True, 'username': username})
+                return Response({'success': True, 'user': user.id})
             return self._error_response('disabled')
         return self._error_response('invalid')
     
+@api_view(['GET'])
+def log_me_out(request):
+	logout(request)
+	return Response(status=status.HTTP_204_NO_CONTENT)
 
 # class IndexView(APIView):
 #     renderer_classes = [TemplateHTMLRenderer]
