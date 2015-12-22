@@ -4,6 +4,7 @@ from serializers import RegisterSerializer
 from rest_framework.response import Response
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.decorators import api_view
+from rest_framework.authtoken.models import Token
 
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
@@ -16,70 +17,83 @@ User = get_user_model()
 
 
 class RegisterView(APIView):
-    # renderer_classes = [TemplateHTMLRenderer]
-    # template_name = 'register.html'
-
- #    def get(self, request):
-	# serializer = RegisterSerializer()
-	# return Response({'serializer': serializer})
+	
+    """
+    Parameters are:
+		username: string
+		password: string
+		email: string
+		matric_no: string
+		first_name: string
+		last_name: string
+    """
 
     def post(self, request, format=None):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            
+            user = User.objects.get(username=self.request.data['username'])
+            
+            Token.objects.create(user=user)
+			
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-	# serializer = RegisterSerializer()
-	# if not serializer.is_valid():
- #            return Response({'serializer': serializer})
- #        return redirect('attendance')
+   	
+class UserDetails(APIView):
+	
+	permission_classes = (permissions.IsAuthenticated,)
 
-class LoginView(APIView):
-
-    error_messages = {
-        'invalid': "Invalid username or password",
-        'disabled': "Sorry, this account is suspended",
-    }
-
-    def _error_response(self, message_key):
-        data = {
-            'success': False,
-            'message': self.error_messages[message_key],
-            'user_id': None,
-        }
-        return Response(data)
-
-    def get(self, request, *args, **kwargs):
-        # Get the current user
-        if request.user.is_authenticated():
-            return Response({'user_id': request.user.id})
-        return Response({'user_id': None})
-    
-    def post(self, request, *args, **kwargs):
+	def get (self, request):
+		user = User.objects.filter(username=request.user.username)
+		return Response(user.values()[0])
+		
+	
+class ChangePassword(APIView):
+	"""
+	call this with REST PUT method
+	Parameters:
+		old_password: string
+		new_password: string
+	"""
+	permission_classes = (permissions.IsAuthenticated,)
+	
+	def put(self, request, *args, **kwargs):
+		user = User.objects.get(username=request.user.username)
+		if check_password(request.data['old_password'], user.password):
+			user.set_password(request.data['new_password'])
+			user.save()
         
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                request.session['user_id'] = user.id
-                request.session.cycle_key()
-                return Response({'success': True})
-            return self._error_response('disabled')
-        return self._error_response('invalid')
-    
-@api_view(['GET'])
-def log_me_out(request):
-	logout(request)
-	request.session.clear_expired()
-	return Response(status=status.HTTP_204_NO_CONTENT)
+			return Response('Password changed successful')
+		else:
+			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# class IndexView(APIView):
-#     renderer_classes = [TemplateHTMLRenderer]
-#     template_name = 'index.html'
 
-#     def get(self, request, *args, **kwargs):
-#         serializer = LoginSerializer()
-#         return Response({'serializer': serializer})
+        
+
+class DeleteToken(APIView):
+	"""
+	Call the logout with the REST delete method
+	"""
+	def delete(self, request, *args, **kwargs):
+		user = User.objects.get(username=request.user.username)
+		token = Token.objects.get(user=user)
+		logout(request)
+		token.delete()
+		token.save()
+		return Response('Sing-out successful')
+	
+
+class DeleteAllToken(APIView):
+	'''
+	this should be called after the teacher logout.
+	'''
+	permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser) 
+
+	def delete(self, request, *args, **kwargs):
+		token = Token.objects.all()
+		#logout(request)
+		token.delete()
+		token.save()
+		return Response('Sing-out successful')

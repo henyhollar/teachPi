@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+admin.autodiscover()
+
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^attendance/', include('attendance.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^student/', include('student.urls')),
+    url(r'^course/', include('course.urls')),
     url(r'^quiz/', include('quiz.urls')),
 ]

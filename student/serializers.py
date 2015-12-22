@@ -1,19 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-User = get_user_model()#(?P<>[a-z0-9]{81,14,12})
-
-#def check_matric_no(matric_no):
-	#if matric_no.startswith('EEG') and len(value) == 12:
-		#return value
-	#elif matric_no.startswith('TP') and len(value) == 14:
-		#return value
-	#elif matric_no.startswith('AC') and len(value) == 8:
-		#return value
-
-	#else:
-		#raise serializers.ValidationError('Please check the matric_no')
-
+User = get_user_model()
 
 
 class RegisterSerializer(serializers.Serializer):
@@ -97,3 +85,4 @@ class RegisterSerializer(serializers.Serializer):
 		user.matric_no = self.validated_data['matric_no']
 
 		user.save()
+

@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
     'django.contrib.admin',
-    'django.contrib.sites',
+    #'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'attendance',
     'student',
     'rest_framework',
+    'rest_framework.authtoken',
     'quiz',
     'multichoice',
     'true_false',
@@ -122,3 +123,14 @@ CORS_ORIGIN_ALLOW_ALL = True
 AUTHENTICATION_BACKENDS = (
         'django.contrib.auth.backends.ModelBackend',
     )
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+    'rest_framework.renderers.JSONRenderer',
+    ),
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'rest_framework.authentication.TokenAuthentication',
+	)
+}
+
