@@ -47,9 +47,8 @@ class CourseView(APIView):
 		return Response({'sucess': 'course updated'})
 		
 	def delete(self, request):
-		course = Course.objects.get(course_code=request.data['course_code'])
-		course.delete()
-
+		course = Course.objects.filter(course_code=request.data['course_code']).delete()
+		return Response({'sucess': 'course deleted'})
 		
 		
 class CanTakeCourse(APIView):
