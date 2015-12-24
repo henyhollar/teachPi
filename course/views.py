@@ -35,7 +35,7 @@ class CourseView(APIView):
 		return Response(Course.objects.all().values())
 
 	def post(self, request):
-		Course.objects.create(course_title=request.POST.get('course_title'), course_code=request.POST.get('course_code'),
+		Course.objects.create(course_title=request.POST.get('course_title'), course_code=request.POST.get('course_code').upper(),
 		duration=request.POST.get('duration'), course_info=request.POST.get('course_info')
 		)
 		return Response({'sucess': 'course registered'})
