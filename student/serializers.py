@@ -65,7 +65,7 @@ class RegisterSerializer(serializers.Serializer):
 				user = User.objects.get(matric_no=value)
 				raise serializers.ValidationError('Matric No. already exists please report if someone else has used yours')
 			except User.DoesNotExist:
-				return value
+				return matric_no
 		else:
 			raise serializers.ValidationError('Matric No. is not valid')
 
