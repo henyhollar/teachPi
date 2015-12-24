@@ -3,6 +3,7 @@ from .models import Course
 from redis_ds.redis_list import RedisList
 from rest_framework import permissions
 from rest_framework.response import Response
+from rest_framework.parsers import JSONParser
 
 
 
@@ -63,8 +64,11 @@ class CanTakeCourse(APIView):
 	"""
 	
 	permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser) 
+	parser_classes = (JSONParser,)
+
 
 	def get(self, request, **kwargs):
+		
 		redis_can_take_course = RedisList(kwargs['course_code'])
 		return Response(redis_can_take_course[:])
 
