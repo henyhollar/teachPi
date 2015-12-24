@@ -64,6 +64,9 @@ class CanTakeCourse(APIView):
 	
 	permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser) 
 
+	def get(self, request, course_code):
+		redis_can_take_course = RedisList(request.data['course_code'])
+        return Response(redis_can_take_course[:])
 
 	def post(self, request):
 		

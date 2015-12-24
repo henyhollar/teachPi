@@ -12,7 +12,7 @@ and add it to the header of all subsequent requests.
 
 urlpatterns = [
     url(r'^register/$', views.RegisterView.as_view(), name='register'),
-    url(r'^user/$', views.UserDetails.as_view()),
+    url(r'^userDetails/$', views.UserDetails.as_view()),
     url(r'^login/$', 'rest_framework.authtoken.views.obtain_auth_token'),
     url(r'^logout/$', views.DeleteToken.as_view()),
     url(r'^changePasswords/(?P<username>[0-9]{11})/$', views.ChangePassword.as_view()),
