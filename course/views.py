@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from .models import Course
 from redis_ds.redis_list import RedisList
+from redis import StrictRedis
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
@@ -37,12 +38,12 @@ class CourseView(APIView):
 
 	def post(self, request):
 		Course.objects.create(course_title=request.POST.get('course_title'), course_code=request.POST.get('course_code').upper(),
-		duration=request.POST.get('duration'), course_info=request.POST.get('course_info')
+		duration=int(request.POST.get('duration')), course_info=request.POST.get('course_info')
 		)
 		return Response({'sucess': 'course registered'})
 
 	def put(self, request):
-		Course.objects.filter(course_code=request.data['course_code']).update(course_title=request.data['course_title'], duration=request.data['duration'], 
+		Course.objects.filter(course_code=request.data['course_code']).update(course_title=request.data['course_title'], duration=int(request.data['duration']),
 		course_info=request.data['course_info']
 		)
 		return Response({'sucess': 'course updated'})
@@ -74,9 +75,15 @@ class CanTakeCourse(APIView):
 
 	def post(self, request):
 		
-		redis_can_take_course = RedisList(request.data['course_code'])
-		for item in request.data['can_take_course']:
-			redis_can_take_course.append(item)
+		key = request.data['course_code']
+		
+		r = StrictRedis(host='localhost', port=6379, db=0)
+		r.delete(key)
+		
+		redis_can_take_course = RedisList(key)
+		can_take_course = set(request.data['can_take_course'])
+		for item in can_take_course:
+			redis_can_take_course.append(item.upper())
 			
 		return Response({'success':'can_take_course'})
 		

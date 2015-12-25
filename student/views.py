@@ -71,7 +71,6 @@ class ChangePassword(APIView):
 
 
         
-
 class DeleteToken(APIView):
 	"""
 	Call the logout with the REST delete method
@@ -82,7 +81,7 @@ class DeleteToken(APIView):
 		logout(request)
 		token.delete()
 		token.save()
-		return Response('Sing-out successful')
+		return Response('Sign-out successful')
 	
 
 class DeleteAllToken(APIView):
@@ -96,4 +95,4 @@ class DeleteAllToken(APIView):
 		#logout(request)
 		token.delete()
 		token.save()
-		return Response('Sing-out successful')
+		return Response('Sign-out successful')
