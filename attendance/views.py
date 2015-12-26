@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from redis import StrictRedis
 from course.models import Course
 from .permissions import CanTakeCourse
-
+from .serializers import AttendanceSerializer
 
 from django.db.models import Q
 
@@ -42,10 +42,14 @@ class AttendanceView(APIView):
 
     permission_classes = (permissions.IsAuthenticated, CanTakeCourse)
 
-    def post(self, request, format=None):
+    def post(self, request):
+        serializer = AttendanceSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+
         #duration = request.POST.get('duration')
         #equest.session.set_expiry(duration*3600) set the expiry of the token
-        Attendance.objects.create(user=request.user, course=request.POST.get('course_code').upper())
+
         return Response({'success': 'Attendance marked!'})
 
 
