@@ -13,6 +13,6 @@ class AttendanceSerializer(serializers.ModelSerializer):
 
     def save(self, **kwargs):
         assert self.instance is None, 'Cannot update users with CreateUserSerializer'
-        Attendance.objects.create(user=self.context['request'].user, course=self.validated_data['course_code'].upper())
+        Attendance.objects.create(user=self.context['request'].user, course_code=self.validated_data['course_code'].upper())
 
 

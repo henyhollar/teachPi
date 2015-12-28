@@ -15,20 +15,22 @@ from .models import Attendance
 
 
 class Get_Who_Attended(APIView):
-	'''
-	this class if for the staff to call. It returns the marked attendance
-	with the user and matric_no
-	'''
-	permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
+    '''
+    this class if for the staff to call. It returns the marked attendance
+    with the user and matric_no
+    '''
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
 
-	def get(self, request, **kwargs):
-		##q = None
-		#for key, value in kwargs:
-			#search_string = Q("{}={}".format(key, value))
-			##q = '{}&{}'.format(q, search_string)
-		attend = Attendance.objects.filter(course=kwargs['course_code']).select_related('username', 'matric_no')
+    def get(self, request, **kwargs):
+        attend = Attendance.objects.filter(course_code=kwargs['course_code']).select_related('user')
+        attendance = {'username': attend[0].user.username,
+                      'matric_no': attend[0].user.matric_no,
+                      'date': attend[0].date,
+                      'time': attend[0].time,
+                      'course_code': attend[0].course_code
+        }
 
-		return Response(attend.values())
+        return Response(attendance)
 
 
 class AttendanceView(APIView):	
