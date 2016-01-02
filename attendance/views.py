@@ -25,11 +25,11 @@ class Get_Who_Attended(APIView):
         attendance = {}
         attend = Attendance.objects.filter(course_code=kwargs['course_code']).select_related('user')
         for att in attend:
-            attendance.update({'username': att[0].user.username,
-                          'matric_no': att[0].user.matric_no,
-                          'date': att[0].date,
-                          'time': att[0].time,
-                          'course_code': att[0].course_code
+            attendance.update({'username': att.user.username,
+                          'matric_no': att.user.matric_no,
+                          'date': att.date,
+                          'time': att.time,
+                          'course_code': att.course_code
             })
 
         return Response(attendance)

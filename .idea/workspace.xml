@@ -26,7 +26,7 @@
       <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/attendance/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="46" selection-start="1033" selection-end="1033" vertical-scroll-proportion="0.5719626" vertical-offset="153" max-vertical-offset="1802">
+            <state line="31" column="56" selection-start="1125" selection-end="1125" vertical-scroll-proportion="0.635514" vertical-offset="153" max-vertical-offset="1802">
               <folding />
             </state>
           </provider>
@@ -44,7 +44,7 @@
       <file leaf-file-name="serializers.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/attendance/serializers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="26" selection-start="244" selection-end="244" vertical-scroll-proportion="-5.44" vertical-offset="0" max-vertical-offset="374">
+            <state line="19" column="49" selection-start="554" selection-end="554" vertical-scroll-proportion="-11.56" vertical-offset="0" max-vertical-offset="595">
               <folding />
             </state>
           </provider>
@@ -71,7 +71,7 @@
       <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/student/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="7" selection-start="567" selection-end="567" vertical-scroll-proportion="0.0" vertical-offset="340" max-vertical-offset="1768">
+            <state line="20" column="7" selection-start="567" selection-end="567" vertical-scroll-proportion="7.48" vertical-offset="340" max-vertical-offset="1581">
               <folding />
             </state>
           </provider>
@@ -532,30 +532,9 @@
         <state line="14" column="0" selection-start="233" selection-end="233" vertical-scroll-proportion="0.33242506" vertical-offset="116" max-vertical-offset="7225" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/student/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="7" selection-start="567" selection-end="567" vertical-scroll-proportion="0.0" vertical-offset="340" max-vertical-offset="1768">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/attendance/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="1" selection-start="332" selection-end="332" vertical-scroll-proportion="0.4204947" vertical-offset="0" max-vertical-offset="283" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attendance/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="525" selection-end="525" vertical-scroll-proportion="-11.56" vertical-offset="0" max-vertical-offset="391">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attendance/serializers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="26" selection-start="244" selection-end="244" vertical-scroll-proportion="-5.44" vertical-offset="0" max-vertical-offset="374">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/teacherpi/settings.py">
@@ -572,9 +551,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/attendance/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="0" selection-start="525" selection-end="525" vertical-scroll-proportion="-11.56" vertical-offset="0" max-vertical-offset="391">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attendance/serializers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="49" selection-start="554" selection-end="554" vertical-scroll-proportion="-11.56" vertical-offset="0" max-vertical-offset="595">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/student/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="7" selection-start="567" selection-end="567" vertical-scroll-proportion="7.48" vertical-offset="340" max-vertical-offset="1581">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/attendance/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="46" selection-start="1033" selection-end="1033" vertical-scroll-proportion="0.5719626" vertical-offset="153" max-vertical-offset="1802">
+        <state line="31" column="56" selection-start="1125" selection-end="1125" vertical-scroll-proportion="0.635514" vertical-offset="153" max-vertical-offset="1802">
           <folding />
         </state>
       </provider>
