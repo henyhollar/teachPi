@@ -22,13 +22,15 @@ class Get_Who_Attended(APIView):
     permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
 
     def get(self, request, **kwargs):
+        attendance = {}
         attend = Attendance.objects.filter(course_code=kwargs['course_code']).select_related('user')
-        attendance = {'username': attend[0].user.username,
-                      'matric_no': attend[0].user.matric_no,
-                      'date': attend[0].date,
-                      'time': attend[0].time,
-                      'course_code': attend[0].course_code
-        }
+        for att in attend:
+            attendance.update({'username': att[0].user.username,
+                          'matric_no': att[0].user.matric_no,
+                          'date': att[0].date,
+                          'time': att[0].time,
+                          'course_code': att[0].course_code
+            })
 
         return Response(attendance)
 
