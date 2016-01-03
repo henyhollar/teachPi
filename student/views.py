@@ -2,12 +2,11 @@ from rest_framework import generics, permissions, status, exceptions
 from rest_framework.views import APIView
 from serializers import RegisterSerializer
 from rest_framework.response import Response
-from rest_framework.renderers import TemplateHTMLRenderer
-from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
 
-from django.shortcuts import redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import logout
+from django.contrib.auth.hashers import check_password
+
 
 from django.contrib.auth import get_user_model
 
@@ -67,7 +66,7 @@ class ChangePassword(APIView):
         
 			return Response('Password changed successful')
 		else:
-			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+			return Response('Password changed not successful')
 
 
         

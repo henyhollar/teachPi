@@ -9,7 +9,6 @@ class CanTakeCourse(permissions.BasePermission):
     def has_permission(self, request, view):
         
         redis_can_take_course = RedisList(request.data['course_code'])#course_code
-        print redis_can_take_course
         if request.data['matric_no'] in redis_can_take_course[:]:
 			return True
         else:

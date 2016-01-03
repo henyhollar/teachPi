@@ -8,24 +8,30 @@ from course.models import Course
 from .permissions import CanTakeCourse
 from .serializers import AttendanceSerializer
 
-from django.db.models import Q
-
+from datetime import datetime
 from .models import Attendance
 
 
 
 class Get_Who_Attended(APIView):
-    '''
-    this class if for the staff to call. It returns the marked attendance
-    with the user and matric_no
-    '''
-    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
+    """
+    this class if for the staff to call. It returns the marked attendance with the user information
+    the parameters are:
+        course_code: string
+        date: string
+    """
+    #permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
 
     def get(self, request, **kwargs):
-        attendance = {}
-        attend = Attendance.objects.filter(course_code=kwargs['course_code']).select_related('user')
+        attendance = []
+        attend = Attendance.objects.filter(course_code=kwargs['course_code'])
+        if all([kwargs.has_key('year'), kwargs.has_key('month'), kwargs.has_key('day')]):
+            date_str = kwargs['year']+kwargs['month']+kwargs['day']
+            date = datetime.date(datetime.strptime(date_str, '%Y %b %d'))
+            attend = attend.filter(date=date)
         for att in attend:
-            attendance.update({'username': att.user.username,
+            attendance.append({'first_name': att.user.first_name,
+                          'last_name': att.user.last_name,
                           'matric_no': att.user.matric_no,
                           'date': att.date,
                           'time': att.time,
@@ -35,15 +41,14 @@ class Get_Who_Attended(APIView):
         return Response(attendance)
 
 
-class AttendanceView(APIView):	
-    '''
+class AttendanceView(APIView):
+    """
     the parameters are:
         matric_no: string
         status: boolean
         course_code: string
         duration: integer
-    '''
-
+    """
     permission_classes = (permissions.IsAuthenticated, CanTakeCourse)
 
     def post(self, request):
@@ -58,28 +63,28 @@ class AttendanceView(APIView):
 
 
 class ActiveClass(APIView):
-	"""
-	This section will give the class available or return none when called
-	Parameters required are:
-		course_code: string
-		duration: integer
-	"""
+    """
+    This section will give the class available or return none when called
+    Parameters required are:
+    course_code: string
+    duration: integer
+    """
 
-	permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,)
 
-	redis_key = 'active_class'
+    redis_key = 'active_class'
 
-	def get(self, request):
-		r = StrictRedis(host='localhost', port=6379, db=0)
-		course_code = r.get(self.redis_key)
-		if not course_code:
-			return Response('There is no active course!')
-		try:
-			course = Course.objects.filter(course_code=course_code)
-		except Course.DoesNotExist:
-			return Response('There is no course listed yet!')
+    def get(self, request):
+        r = StrictRedis(host='localhost', port=6379, db=0)
+        course_code = r.get(self.redis_key)
+        if not course_code:
+            return Response('There is no active course!')
+        try:
+            course = Course.objects.filter(course_code=course_code)
+        except Course.DoesNotExist:
+            return Response('There is no course listed yet!')
 
-		return Response(course.values())
+        return Response(course.values())
 
 	def post(self, request):
 		active_class = request.POST.get('course_code')

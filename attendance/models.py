@@ -15,4 +15,4 @@ class Attendance(models.Model):
 		unique_together = ('user','course_code', 'date',)
 	
 	def __unicode__(self):
-		return "{}:{}:{}".format(self.user, self.course_code)
+		return "{}:{}".format(self.user, self.course_code)
