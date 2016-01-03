@@ -26,7 +26,7 @@ class Get_Who_Attended(APIView):
         attendance = []
         attend = Attendance.objects.filter(course_code=kwargs['course_code'])
         if all([kwargs.has_key('year'), kwargs.has_key('month'), kwargs.has_key('day')]):
-            date_str = kwargs['year']+kwargs['month']+kwargs['day']
+            date_str = '{} {} {}'.format(kwargs['year'], kwargs['month'], kwargs['day'])
             date = datetime.date(datetime.strptime(date_str, '%Y %b %d'))
             attend = attend.filter(date=date)
         for att in attend:

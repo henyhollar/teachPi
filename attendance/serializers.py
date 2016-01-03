@@ -12,17 +12,17 @@ class AttendanceSerializer(serializers.ModelSerializer):
         model = Attendance
         fields = ('course_code',)
 
-    def validate(self, attrs):
+    def validate(self, data):
         try:
             Attendance.objects.get(user=self.context['request'].user,
-                                   course_code=attrs['course_code'],
+                                   course_code=data['course_code'],
                                    date= datetime.date(datetime.now()))
         except Attendance.DoesNotExist:
             pass
         else:
             raise serializers.ValidationError('You can only mark attendance for a course just once')
 
-        return attrs
+        return data
 
     def save(self, **kwargs):
         assert self.instance is None, 'Cannot update users with CreateUserSerializer'
