@@ -30,6 +30,7 @@ class Get_Who_Attended(APIView):
             date = datetime.date(datetime.strptime(date_str, '%Y %b %d'))
             attend = attend.filter(date=date)
         for att in attend:
+            print att
             attendance.append({'first_name': att.user.first_name,
                           'last_name': att.user.last_name,
                           'matric_no': att.user.matric_no,
@@ -55,11 +56,11 @@ class AttendanceView(APIView):
         serializer = AttendanceSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
+            #duration = request.POST.get('duration')
+            #equest.session.set_expiry(duration*3600) set the expiry of the token
+            return Response({'success': 'Attendance marked!'})
 
-        #duration = request.POST.get('duration')
-        #equest.session.set_expiry(duration*3600) set the expiry of the token
-
-        return Response({'success': 'Attendance marked!'})
+        return Response(serializer.errors)
 
 
 class ActiveClass(APIView):
@@ -86,16 +87,16 @@ class ActiveClass(APIView):
 
         return Response(course.values())
 
-	def post(self, request):
-		active_class = request.POST.get('course_code')
-		duration = int(request.POST.get('duration'))
-		print active_class, duration
+    def post(self, request):
+        active_class = request.POST.get('course_code')
+        duration = int(request.POST.get('duration'))
+        print active_class, duration
 
-		r = StrictRedis(host='localhost', port=6379, db=0)
-		r.set(self.redis_key, active_class)
-		r.expire(self.redis_key, duration*3600)
+        r = StrictRedis(host='localhost', port=6379, db=0)
+        r.set(self.redis_key, active_class)
+        r.expire(self.redis_key, duration*3600)
 
-		return Response({'success':'active_class stored'})
+        return Response({'success':'active_class stored'})
 
 
 
