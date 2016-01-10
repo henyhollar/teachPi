@@ -88,3 +88,9 @@ class CanTakeCourse(APIView):
 		return Response({'success':'can_take_course'})
 		
 	
+def get_time_left(request):
+    key = request.data['course_code']
+    r = StrictRedis()
+    ttl = r.ttl(key)
+
+    return ttl
