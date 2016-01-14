@@ -1,4 +1,5 @@
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from .models import Course
 from redis_ds.redis_list import RedisList
 from redis import StrictRedis
@@ -87,10 +88,15 @@ class CanTakeCourse(APIView):
 			
 		return Response({'success':'can_take_course'})
 		
-	
-def get_time_left(request):
-    key = request.data['course_code']
-    r = StrictRedis()
-    ttl = r.ttl(key)
 
-    return ttl
+@api_view(['GET'])
+def get_time_left(request, course_code):
+    """
+        It returns time left in seconds
+        Parameter
+        course_code: string, it is added to the url
+    """
+    r = StrictRedis()
+    ttl = r.ttl('active_class:{}'.format(course_code))
+
+    return Response(ttl)

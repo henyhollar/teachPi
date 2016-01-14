@@ -20,7 +20,8 @@ class Get_Who_Attended(APIView):
         course_code: string
         date: string
     """
-    #permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
+
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
 
     def get(self, request, **kwargs):
         attendance = []
@@ -73,11 +74,11 @@ class ActiveClass(APIView):
 
     permission_classes = (permissions.IsAuthenticated,)
 
-    redis_key = 'active_class'
+    redis_key = 'active_class:'
 
-    def get(self, request):
+    def get(self, request, course_code):
         r = StrictRedis(host='localhost', port=6379, db=0)
-        course_code = r.get(self.redis_key)
+        course_code = r.get('{}{}'.format(self.redis_key, course_code))
         if not course_code:
             return Response('There is no active course!')
         try:
@@ -88,13 +89,12 @@ class ActiveClass(APIView):
         return Response(course.values())
 
     def post(self, request):
-        active_class = request.POST.get('course_code')
+        course_code = request.POST.get('course_code')
         duration = int(request.POST.get('duration'))
-        print active_class, duration
 
         r = StrictRedis(host='localhost', port=6379, db=0)
-        r.set(self.redis_key, active_class)
-        r.expire(self.redis_key, duration*3600)
+        r.set('{}{}'.format(self.redis_key, course_code), course_code)
+        r.expire('{}{}'.format(self.redis_key, course_code), duration*3600)
 
         return Response({'success':'active_class stored'})
 
