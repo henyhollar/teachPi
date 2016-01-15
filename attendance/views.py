@@ -76,16 +76,17 @@ class ActiveClass(APIView):
 
     redis_key = 'active_class:'
 
-    def get(self, request, course_code):
+    def get(self, request):
         r = StrictRedis(host='localhost', port=6379, db=0)
-        course_code = r.get('{}{}'.format(self.redis_key, course_code))
+        course_code = r.keys('active_class:*')[0].split(':')[1]
+        print course_code
         if not course_code:
             return Response('There is no active course!')
         try:
             course = Course.objects.filter(course_code=course_code)
         except Course.DoesNotExist:
             return Response('There is no course listed yet!')
-
+        print course
         return Response(course.values())
 
     def post(self, request):
