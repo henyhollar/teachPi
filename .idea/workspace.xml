@@ -23,10 +23,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/attendance/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="116" column="18" selection-start="3764" selection-end="3764" vertical-scroll-proportion="0.8668831" vertical-offset="1671" max-vertical-offset="2040">
+            <state line="32" column="24" selection-start="1199" selection-end="1199" vertical-scroll-proportion="-6.44" vertical-offset="349" max-vertical-offset="2057">
               <folding />
             </state>
           </provider>
@@ -43,10 +43,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="urls.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/attendance/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="74" selection-start="206" selection-end="206" vertical-scroll-proportion="-3.28" vertical-offset="3" max-vertical-offset="323">
+            <state line="8" column="5" selection-start="215" selection-end="215" vertical-scroll-proportion="0.33559322" vertical-offset="3" max-vertical-offset="323">
               <folding />
             </state>
           </provider>
@@ -111,8 +111,8 @@
         <option value="$PROJECT_DIR$/attendance/serializers.py" />
         <option value="$PROJECT_DIR$/course/urls.py" />
         <option value="$PROJECT_DIR$/course/views.py" />
-        <option value="$PROJECT_DIR$/attendance/urls.py" />
         <option value="$PROJECT_DIR$/attendance/views.py" />
+        <option value="$PROJECT_DIR$/attendance/urls.py" />
       </list>
     </option>
   </component>
@@ -452,7 +452,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="0" width="1378" height="744" extended-state="1" />
+    <frame x="-8" y="0" width="1378" height="744" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -607,16 +607,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/attendance/urls.py">
+    <entry file="file://$PROJECT_DIR$/attendance/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="74" selection-start="206" selection-end="206" vertical-scroll-proportion="-3.28" vertical-offset="3" max-vertical-offset="323">
+        <state line="32" column="24" selection-start="1199" selection-end="1199" vertical-scroll-proportion="-6.44" vertical-offset="349" max-vertical-offset="2057">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/attendance/views.py">
+    <entry file="file://$PROJECT_DIR$/attendance/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="18" selection-start="3764" selection-end="3764" vertical-scroll-proportion="0.8668831" vertical-offset="1671" max-vertical-offset="2040">
+        <state line="8" column="5" selection-start="215" selection-end="215" vertical-scroll-proportion="0.33559322" vertical-offset="3" max-vertical-offset="323">
           <folding />
         </state>
       </provider>

@@ -30,6 +30,7 @@ class Get_Who_Attended(APIView):
             date_str = '{} {} {}'.format(kwargs['year'], kwargs['month'], kwargs['day'])
             date = datetime.date(datetime.strptime(date_str, '%Y %b %d'))
             attend = attend.filter(date=date)
+            print attend
         for att in attend:
             print att
             attendance.append({'first_name': att.user.first_name,
