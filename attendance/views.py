@@ -78,15 +78,14 @@ class ActiveClass(APIView):
 
     def get(self, request):
         r = StrictRedis(host='localhost', port=6379, db=0)
-        course_code = r.keys('active_class:*')[0].split(':')[1]
-        print course_code
+        course_code = r.keys('active_class:*')
+        course_code = course_code[0].split(':')[1] if len(course_code) > 0 else ''
         if not course_code:
             return Response('There is no active course!')
         try:
             course = Course.objects.filter(course_code=course_code)
         except Course.DoesNotExist:
             return Response('There is no course listed yet!')
-        print course
         return Response(course.values())
 
     def post(self, request):
@@ -97,7 +96,7 @@ class ActiveClass(APIView):
         r.set('{}{}'.format(self.redis_key, course_code), course_code)
         r.expire('{}{}'.format(self.redis_key, course_code), duration*3600)
 
-        return Response({'success':'active_class stored'})
+        return Response({'success': 'active_class stored'})
 
 
 
@@ -107,3 +106,12 @@ class ActiveClass(APIView):
 
 
 
+#def get_client_ip(request):
+#    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+#    if x_forwarded_for:
+#        ip = x_forwarded_for.split(',')[-1].strip()
+#    else:
+#        ip = request.META.get('REMOTE_ADDR')
+#    return ip
+
+#or django-ipaware
