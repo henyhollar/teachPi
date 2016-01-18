@@ -73,7 +73,7 @@ class ActiveClass(APIView):
     duration: integer
     """
 
-    permission_classes = (permissions.IsAuthenticated,)
+    #permission_classes = (permissions.IsAuthenticated,)
 
     redis_key = 'active_class:'
 

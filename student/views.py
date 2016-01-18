@@ -6,13 +6,12 @@ from rest_framework.authtoken.models import Token
 
 from django.contrib.auth import logout
 from django.contrib.auth.hashers import check_password
-
+from django.core.exceptions import PermissionDenied
 
 from django.contrib.auth import get_user_model
 
 
 User = get_user_model()
-
 
 
 class RegisterView(APIView):
@@ -28,7 +27,7 @@ class RegisterView(APIView):
     """
 
     def post(self, request, format=None):
-        serializer = RegisterSerializer(data=request.data)
+        serializer = RegisterSerializer(data=request.data, context={'mac_add': get_mac_add(request)})
         if serializer.is_valid():
             serializer.save()
             
@@ -95,3 +94,28 @@ class DeleteAllToken(APIView):
 		token.delete()
 		token.save()
 		return Response('Sign-out successful')
+
+
+from ipware.ip import get_ip
+from subprocess import Popen, PIPE
+import re
+
+def get_mac_add(request):
+    ip = get_ip(request)
+    if ip is not None:
+        pid = Popen(["arp", "-n", ip], stdout=PIPE)
+        s = pid.communicate()[0]
+        mac = re.search(r"(([a-f\d]{1,2}\:){5}[a-f\d]{1,2})", s).groups()[0]
+
+        return mac
+
+    else:
+       raise PermissionDenied('IP not accessible, please notify the admin')
+
+    #x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    #if x_forwarded_for:
+    #    ip = x_forwarded_for.split(',')[-1].strip()
+    #else:
+    #    ip = request.META.get('REMOTE_ADDR')
+
+
